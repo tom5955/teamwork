@@ -2,7 +2,7 @@ Zentrales GIT-Repository
 ========================
 
 Lokation:
-	/opt/git
+	/opt/git  
 
 Git Protokoll zum Clonen (in rc.local):
 	git daemon --base-path=/opt/git/ --export-all --verbose /opt/git &
