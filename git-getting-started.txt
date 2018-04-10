@@ -1,0 +1,52 @@
+Zentrales GIT-Repository
+========================
+
+Lokation:
+	/opt/git
+
+Git Protokoll zum Clonen (in rc.local):
+	git daemon --base-path=/opt/git/ --export-all --verbose /opt/git &
+
+Neues Repository anlegen und Dateien hochladen (pushen):
+--------------------------------------------------------
+
+1. Auf GitSv in /opt/git "git --bare init <NEW-NAME>.git
+
+2. Lokal auf PC, da wo die Dateien bearbeitet werden:
+a)	Es sind schon Dateien da
+	Ins Verzeichnis wechseln
+	git init
+	git add <FILES> oder *.*
+	git commit -m „<MESSAGE>“
+
+	evtl. beim 1. Mal:
+	git config --global user.email "you@example.com"
+	git config --global user.user "Your Name"
+
+	dann die Änderungen (besser alles, was im Commit ist) auf den GitSv pushen
+	git push --set-upstream git@gitsv:/opt/git/<NEW-NAME>.git master
+
+b)	Es sollen die Dateien vom Repository geclont werden:
+	In das übergeordnete Verzeichnis wechseln
+	git clone git@gitsv:/opt/git/<REPONAME> [<DESTFOLDER>]
+
+	Änderungen vornehmen …
+	git commit -m „…“
+
+c)	Es sollen die Dateien vom Repository aktualisiert werden:
+
+	git pull
+
+
+Git Repository zurücksetzen
+===========================
+
+Es kommt gelegentlich vor, das lokale Änderungen nicht so laufen wie geplant, und man den letzten funktionierenden Arbeitsstand eines Git Repos wiederherstellen möchte. Der Weg dahin ist sehr einfach…
+	git fetch --all
+	git reset --hard origin/master
+	Erklärung
+
+Mit git fetch werden zunächst die verfügbaren Dateien aus dem remote repository geladen. Der Befehl git reset sorgt dann dafür, dass der master branch mit den “gefechten” Dateien wiederhergestellt wird. Die Option --hard origin/master sorgt dafür, dass lokal geänderte Dateien überschrieben werden - Lokale Änderungen sind damit auch anschließend verloren.
+
+So oder so sind alle “commits” die noch nicht “gepusht” wurden, nach einem git reset verloren, aber das Repo befindet sich jetzt wieder im Ausgangszustand.
+
